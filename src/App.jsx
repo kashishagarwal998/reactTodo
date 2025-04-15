@@ -7,6 +7,8 @@ import { useState } from "react"
 function App() {
   
   let todosInitial = [];
+   const initialTheme= localStorage.getItem("theme") ;
+    const [theme, setTheme] = useState(initialTheme);
 
 try {
   const stored = localStorage.getItem("todosList");
@@ -24,16 +26,25 @@ try {
   function closeModal() {
     setIsOpen(false);
   }
-
+  const toggleTheme = () => {
+    if (theme == 'light') {
+      setTheme('dark')
+      localStorage.setItem("theme", "dark");
+    } else {
+      setTheme('light')
+      localStorage.setItem("theme", "light");
+    }
+  }
+ 
  
 
   return (
 
     <div >
       {isOpen && <AddTaskModal close={closeModal} setTodos={setTodos}/>}
-      <NavBar />
+      <NavBar toggleTheme={toggleTheme} theme={theme}/>
       <Crousel/>
-      <TodoSection open={openModal} todos={todos} setTodos={setTodos} />
+      <TodoSection open={openModal} todos={todos} setTodos={setTodos} theme={theme}/>
 
     </div>
 
